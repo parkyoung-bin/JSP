@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+    	.div1 {
+    		margin-top:20px;
+    	}
+    
+        h2 {
+            text-align: center;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h2>자전거대여소</h2>
+    <div id="map" style="width:1000px;height:500px;"></div>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=21dacd05a4f6f56d008ee3ba02ad3564"></script>
+
+    <script>
+
+        var latt;
+        var lngg;
+
+        function ajax(position) {
+            var latt = position.coords.latitude;
+            var lngg = position.coords.longitude;
+
+            fetch(`http://openapi.seoul.go.kr:8088/6363676c6962686335364b69517547/JSON/SdeWarnhydrantgt/1/100/`).then(function (response) {
+                //console.log(response);
+                if (response.status !== 200) {
+                    alert("서버와의 통신 실패!");
+                    return;
+                } else {
+                    return response.json();
+                }
+            }).then(function (jsonData) {
+                //console.log(jsonData);
+
+                var data = jsonData.SdeWarnhydrantgt.row
+                var positions = new Array();
+
+                for (var i = 0; i < data.length; i++) {
+                    var lat = data[i].X;
+                    var lng = data[i].Y;
+                    // console.log(lat);
+                    // console.log(lng);
+
+                    var coords = new kakao.maps.Coords(lat * 2.5, lng * 2.5); // wtm * 2.5 필요
+                    var latlng = coords.toLatLng(); // 변환
+                    // console.log(latlng.getLat());
+                    // console.log(latlng.getLng());
+
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                        mapOption = {
+                            center: new kakao.maps.LatLng(latt, lngg), // 지도의 중심좌표
+                            level: 7 // 지도의 확대 레벨
+                        };
+
+                    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+                    positions[i] = {
+                        title: data[i].NEWADDR,
+                        latlng: new kakao.maps.LatLng(latlng.getLat(), latlng.getLng())
+                    }
+                }
+
+                //console.log(data);
+                //console.log(positions);
+
+                var markerPosition = new kakao.maps.LatLng(latt, lngg);
+
+                // 마커를 생성합니다
+                var marker = new kakao.maps.Marker({
+                    position: markerPosition
+                });
+
+                // 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+
+
+
+                //마커 이미지의 이미지 주소입니다
+                var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+
+                for (var j = 0; j < positions.length; j++) {
+
+
+                    // 마커 이미지의 이미지 크기 입니다
+                    var imageSize = new kakao.maps.Size(24, 35);
+
+                    // 마커 이미지를 생성합니다    
+                    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+                    // 마커를 생성합니다
+                    var marker = new kakao.maps.Marker({
+                        map: map, // 마커를 표시할 지도
+                        position: positions[j].latlng, // 마커를 표시할 위치
+                        title: positions[j].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+                        image: markerImage // 마커 이미지 
+                    });
+                }
+
+
+            });
+
+
+        }
+
+        function fail() {
+
+        }
+
+        (function () {
+
+            navigator.geolocation.getCurrentPosition(ajax, fail);
+
+
+        })();
+
+    </script>
+    <div class="div1" align="center">
+     	<button type="button" onclick="location.href='logout.user'" align="center" style="background-color:skyblue; border-color:skyblue;" >로그아웃</button>
+    </div>
+
+</body>
+
+</html>

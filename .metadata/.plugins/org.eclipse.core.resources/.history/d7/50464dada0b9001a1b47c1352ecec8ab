@@ -1,0 +1,5 @@
+package kakao;
+
+public interface UserService {
+
+}

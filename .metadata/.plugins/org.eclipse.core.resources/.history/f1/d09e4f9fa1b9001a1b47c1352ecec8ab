@@ -1,0 +1,5 @@
+package com.kakao.user.service;
+
+public class LoginServiceImpl {
+
+}

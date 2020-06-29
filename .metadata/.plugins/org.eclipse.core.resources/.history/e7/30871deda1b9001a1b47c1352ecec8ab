@@ -1,0 +1,5 @@
+package com.kakao.user.model;
+
+public class UserVO {
+
+}

@@ -1,0 +1,66 @@
+
+package com.ajax.controller;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("*.ajax")
+public class AjaxController extends HttpServlet {
+   private static final long serialVersionUID = 1L;
+
+  
+    public AjaxController() {
+        // TODO Auto-generated constructor stub
+    }
+
+   
+   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      
+      doAction(request, response);
+   }
+
+   
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      
+      doAction(request, response);
+   }
+
+protected void doAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      
+   //한글처리
+      
+      request.setCharacterEncoding("utf-8");
+   
+   
+      String uri = request.getRequestURI();
+      String conpath = request.getContextPath();
+      
+      String command = uri.substring(conpath.length());
+      
+      System.out.println(command);
+      if(command.equals("/test.ajax")) {
+         
+         String id = request.getParameter("id");
+         String pw = request.getParameter("pw");
+         System.out.println(id);
+         System.out.println(pw);
+         
+         System.out.println("실행됨....");
+         
+         //요청들어온 곳으로 문자열의 형태로 반환
+         response.setCharacterEncoding("utf-8");
+         response.setContentType("text/html");
+         PrintWriter out = response.getWriter();
+         out.println("반환된 데이터");
+      }else if(command.equals("/list.ajax")) {
+    	  String num = request.getParameter("num");
+    	  System.out.println("전달된 번호:"+num);
+    	  
+      }
+   }
+}

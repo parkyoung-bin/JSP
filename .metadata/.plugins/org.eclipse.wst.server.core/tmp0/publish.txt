@@ -1,0 +1,6 @@
+#Tomcat publish data
+#Mon Jun 29 17:37:04 KST 2020
+org.eclipse.jst.jee.server\:TEST=D\:\\course\\java\\apache-tomcat-9.0.36\\wtpwebapps\\TEST
+org.eclipse.jst.jee.server\:ajax2=D\:\\course\\java\\apache-tomcat-9.0.36\\wtpwebapps\\ajax2
+org.eclipse.jst.jee.server\:ajax=D\:\\course\\java\\apache-tomcat-9.0.36\\wtpwebapps\\ajax
+org.eclipse.jst.jee.server\:kakao=D\:\\course\\java\\apache-tomcat-9.0.36\\wtpwebapps\\kakao

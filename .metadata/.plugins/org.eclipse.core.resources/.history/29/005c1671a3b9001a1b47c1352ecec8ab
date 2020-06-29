@@ -1,0 +1,16 @@
+package com.kakao.user.service;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class LoginServiceImpl implements UserService{
+
+	@Override
+	public int execute(HttpServletRequest request, HttpServletResponse response) {
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		
+		return 0;
+	}
+
+}
